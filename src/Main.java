@@ -4,11 +4,11 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         List<HausWesteros> hausWesterosList = new ArrayList<>();
-
-        try (BufferedReader bw = new BufferedReader(new FileReader("ereignisse.tsv"))) {
+        try (BufferedReader bw = new BufferedReader(new FileReader("evenimente.tsv"))) {
             String line;
+            bw.readLine();
             while ((line = bw.readLine()) != null) {
-                String[] fields = line.split(" ");
+                String[] fields = line.split("\t");
                 int id = Integer.parseInt(fields[0]);
                 String name = fields[1];
                 String house = fields[2];
