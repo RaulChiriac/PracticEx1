@@ -1,9 +1,5 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -50,6 +46,42 @@ public class Main {
                             System.out.println(hw.getName());
                         }
                     }
+                    break;
+                case 2:
+                    System.out.println("\n --- Stark Mitglider ---");
+                    hausWesterosList.stream().filter(hw -> hw.getHouse().equals("Stark"))
+                            .map(HausWesteros::getDate).sorted().forEach(System.out::println);
+                    break;
+                case 3:
+                    System.out.println("Enter file name: ");
+                    String fileName = scanner.nextLine();
+                    Map<String, Integer> housePoints = new HashMap<>();
+                    for (HausWesteros hw : hausWesterosList) {
+                        housePoints.put(hw.getHouse(), housePoints.getOrDefault(hw.getHouse(), 0) + 1);
+                    }
+                    List<Map.Entry<String, Integer>> sortedScores = housePoints.entrySet()
+                            .stream()
+                            .sorted(Map.Entry.<String, Integer> comparingByValue().reversed())
+                            .toList();
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+                        for (Map.Entry<String, Integer> entry : sortedScores) {
+                            writer.write(entry.getKey() + "#" + entry.getValue());
+                            writer.newLine();
+                        }
+                        System.out.println("Anzahl Ereignisse save successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Error writing to file: " + e.getMessage());
+
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exit");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+
             }
         }
     }
